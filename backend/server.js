@@ -177,6 +177,7 @@ app.post('/api/send-note-notification', async (req, res) => {
 // ─────────────────────────────────────────────────────────────
 // Production Build
 // ─────────────────────────────────────────────────────────────
+/*
 if (process.env.NODE_ENV === 'production') {
 
   app.use(express.static(path.join(__dirname, '../frontend/build')));
@@ -188,6 +189,7 @@ if (process.env.NODE_ENV === 'production') {
     );
   });
 }
+    */
 
 // ─────────────────────────────────────────────────────────────
 // 404 Route
