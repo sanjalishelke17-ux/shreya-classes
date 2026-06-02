@@ -16,6 +16,7 @@ app.use(
       'http://localhost:3000',
       'http://localhost:3001',
       'https://shreyaclasses.com',
+      'https://shreya-classes-tution.onrender.com'
     ],
     credentials: true,
   })
