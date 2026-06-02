@@ -3,14 +3,7 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
-// 🔥 Firebase Admin
-const admin = require('firebase-admin');
-
-const serviceAccount = require('./firebase-service-account.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// 🔥 Firebase temporarily disabled for deployment
 
 const app = express();
 
@@ -112,61 +105,13 @@ app.post('/api/notifications/save-token', async (req, res) => {
 // ─────────────────────────────────────────────────────────────
 const sendPushNotification = async (title, body) => {
 
-  try {
+  console.log('\n🔕 FIREBASE DISABLED');
+  console.log('Title:', title);
+  console.log('Body:', body);
+  console.log('Active Tokens:', savedTokens.length);
 
-    if (savedTokens.length === 0) {
-
-      console.log('❌ No active tokens');
-      return;
-    }
-
-    const message = {
-
-      notification: {
-        title,
-        body,
-      },
-
-      tokens: savedTokens,
-    };
-
-    console.log('\n📤 SENDING NOTIFICATION...');
-    console.log(message);
-
-    const response =
-      await admin.messaging().sendEachForMulticast(message);
-
-    console.log(
-      '\n🔥 FIREBASE RESPONSE:\n',
-      JSON.stringify(response, null, 2)
-    );
-
-    // Remove invalid tokens
-    response.responses.forEach((resp, idx) => {
-
-      if (resp.success) {
-
-        console.log(`✅ SUCCESS FOR TOKEN ${idx + 1}`);
-
-      } else {
-
-        console.log(`❌ REMOVING INVALID TOKEN ${idx + 1}`);
-
-        savedTokens = savedTokens.filter(
-          token => token !== message.tokens[idx]
-        );
-      }
-    });
-
-    console.log('\n🧹 ACTIVE TOKENS:');
-    console.log(savedTokens);
-
-  } catch (error) {
-
-    console.error('\n❌ PUSH ERROR:\n', error);
-  }
+  return true;
 };
-
 // ─────────────────────────────────────────────────────────────
 // SEND TEST NOTIFICATION
 // ─────────────────────────────────────────────────────────────
