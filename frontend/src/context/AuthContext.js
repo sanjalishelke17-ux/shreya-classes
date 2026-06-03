@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+const API = 'https://shreya-classes.onrender.com/api';
 
 const AuthContext = createContext(null);
 

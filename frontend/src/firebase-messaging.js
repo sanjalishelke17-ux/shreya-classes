@@ -56,7 +56,7 @@ export const requestForToken = async (userId = null) => {
             try {
 
                 await axios.post(
-                    "http://localhost:5001/api/notifications/save-token",
+                    "https://shreya-classes.onrender.com/api/notifications/save-token",
                     {
                         userId,
                         token: currentToken,
