@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const settingsRoutes = require("./routes/settings");
 require('dotenv').config();
 
 // 🔥 Firebase temporarily disabled for deployment
@@ -47,6 +48,8 @@ app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/students', require('./routes/students'));
 app.use('/api/admissions', require('./routes/admissions'));
 app.use('/api/payments', require('./routes/payments'));
+app.use('/api/settings', require('./routes/settings'));
+app.use("/api/settings", settingsRoutes);
 
 // ─────────────────────────────────────────────────────────────
 // Health Route
@@ -191,6 +194,17 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
     */
+if (process.env.NODE_ENV === 'production') {
+
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(
+      path.join(__dirname, '../frontend/build', 'index.html')
+    );
+  });
+
+}
 
 // ─────────────────────────────────────────────────────────────
 // 404 Route

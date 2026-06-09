@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Save, Lock, Globe, Phone, Mail, Eye, EyeOff } from 'lucide-react';
 import AdminLayout from './AdminLayout';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+
 
 export default function AdminSettings() {
   const { user, updateUser } = useAuth();
@@ -15,14 +16,53 @@ export default function AdminSettings() {
   const [passwords, setPasswords] = useState({ current_password: '', new_password: '', confirm: '' });
 
   const [contact, setContact] = useState({
-    phone: '9130136257',
-    whatsapp: '9130136257',
+    phone: '',
+    whatsapp: '',
     email: '',
-    address: 'Harsha Apartment, Vatan Nagar, Near Indrayani College, Talegaon Dabhade, Pune',
+    address: '',
     instagram: '',
     facebook: '',
     youtube: '',
   });
+  useEffect(() => {
+    console.log("Settings page loaded");
+  }, []);
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const res = await api.get('/settings');
+
+      setContact({
+        phone: res.data.phone || '',
+        whatsapp: res.data.whatsapp || '',
+        email: res.data.email || '',
+        address: res.data.address || '',
+        instagram: res.data.instagram || '',
+        facebook: res.data.facebook || '',
+        youtube: res.data.youtube || '',
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const saveSettings = async () => {
+    try {
+      setSaving(true);
+
+      await api.put('/settings', contact);
+
+      toast.success('Settings saved successfully');
+    } catch (err) {
+      toast.error('Failed to save settings');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleProfileSave = async e => {
     e.preventDefault();
@@ -55,9 +95,9 @@ export default function AdminSettings() {
   };
 
   const tabs = [
-    { id: 'account', icon: Lock,  label: 'Account & Password' },
+    { id: 'account', icon: Lock, label: 'Account & Password' },
     { id: 'contact', icon: Phone, label: 'Contact Info' },
-    { id: 'social',  icon: Globe, label: 'Social Media' },
+    { id: 'social', icon: Globe, label: 'Social Media' },
   ];
 
   return (
@@ -66,11 +106,10 @@ export default function AdminSettings() {
       <div className="flex flex-wrap gap-1 mb-8 border-b border-gray-200">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
-            className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-colors -mb-px ${
-              tab === t.id
-                ? 'border-gold-500 text-gold-600'
-                : 'border-transparent text-gray-500 hover:text-navy-800'
-            }`}>
+            className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-colors -mb-px ${tab === t.id
+              ? 'border-gold-500 text-gold-600'
+              : 'border-transparent text-gray-500 hover:text-navy-800'
+              }`}>
             <t.icon className="w-4 h-4" />{t.label}
           </button>
         ))}
@@ -187,6 +226,18 @@ export default function AdminSettings() {
                 The website updates automatically (no restart needed).
               </p>
             </div>
+            <button
+              onClick={saveSettings}
+              disabled={saving}
+              className="btn-primary flex items-center gap-2 mt-4"
+            >
+              {saving ? (
+                <div className="w-4 h-4 border-2 border-navy-800 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+              Save Contact Settings
+            </button>
           </div>
         </div>
       )}
@@ -202,8 +253,8 @@ export default function AdminSettings() {
           <div className="space-y-4">
             {[
               { key: 'instagram', label: 'Instagram URL', placeholder: 'https://instagram.com/shreyaclasses' },
-              { key: 'facebook',  label: 'Facebook URL',  placeholder: 'https://facebook.com/shreyaclasses' },
-              { key: 'youtube',   label: 'YouTube URL',   placeholder: 'https://youtube.com/@shreyaclasses' },
+              { key: 'facebook', label: 'Facebook URL', placeholder: 'https://facebook.com/shreyaclasses' },
+              { key: 'youtube', label: 'YouTube URL', placeholder: 'https://youtube.com/@shreyaclasses' },
             ].map(({ key, label, placeholder }) => (
               <div key={key}>
                 <label className="block text-sm font-semibold text-navy-900 mb-1">{label}</label>
