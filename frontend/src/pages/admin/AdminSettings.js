@@ -188,11 +188,7 @@ export default function AdminSettings() {
       {tab === 'contact' && (
         <div className="card p-6 max-w-xl">
           <h3 className="font-bold text-navy-900 text-lg mb-2">Contact Information</h3>
-          <p className="text-sm text-gray-500 mb-5">
-            These details show on the website footer and contact page. Edit the files
-            <span className="font-mono text-navy-800"> src/components/Footer.js</span> and
-            <span className="font-mono text-navy-800"> src/pages/Contact.js</span> to update them.
-          </p>
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-navy-900 mb-1">
@@ -218,14 +214,7 @@ export default function AdminSettings() {
               <textarea value={contact.address} onChange={e => setContact(p => ({ ...p, address: e.target.value }))}
                 rows={3} className="input-field resize-none" />
             </div>
-            <div className="bg-gold-50 border border-gold-200 rounded-xl p-4">
-              <p className="text-sm font-semibold text-navy-900 mb-1">How to apply these changes to the website</p>
-              <p className="text-sm text-gray-600">
-                Open VS Code → open <span className="font-mono">frontend/src/components/Footer.js</span> →
-                find the phone/email/address text → update it → save the file.
-                The website updates automatically (no restart needed).
-              </p>
-            </div>
+
             <button
               onClick={saveSettings}
               disabled={saving}
