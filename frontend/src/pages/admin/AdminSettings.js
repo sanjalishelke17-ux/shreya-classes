@@ -235,10 +235,7 @@ export default function AdminSettings() {
       {tab === 'social' && (
         <div className="card p-6 max-w-xl">
           <h3 className="font-bold text-navy-900 text-lg mb-2">Social Media Links</h3>
-          <p className="text-sm text-gray-500 mb-5">
-            Paste your full profile URLs below. Then copy them into
-            <span className="font-mono text-navy-800"> src/components/Footer.js</span>.
-          </p>
+
           <div className="space-y-4">
             {[
               { key: 'instagram', label: 'Instagram URL', placeholder: 'https://instagram.com/shreyaclasses' },
@@ -256,14 +253,7 @@ export default function AdminSettings() {
               </div>
             ))}
           </div>
-          <div className="bg-navy-50 rounded-xl p-4 mt-5">
-            <p className="text-sm font-semibold text-navy-900 mb-2">How to add these to the website</p>
-            <p className="text-sm text-gray-600">
-              In <span className="font-mono">Footer.js</span>, find the three social media{' '}
-              <span className="font-mono">{'<a href="#">'}</span> lines and replace{' '}
-              <span className="font-mono">#</span> with your actual URLs above.
-            </p>
-          </div>
+
         </div>
       )}
     </AdminLayout>
